@@ -1,9 +1,14 @@
+import "reflect-metadata";
+import { container  } from "tsyringe";
 import express, { Application, Request, Response } from "express";
-import database from "./infra/db";
 
+
+import database from "./infra/db";
 import NewsController from "./controller/newsController";
 import VideosController from "./controller/videosController";
 import GaleriaController from "./controller/galeriaController";
+import './shared/container';
+
 
 class Startup {
     public app: Application;
@@ -15,6 +20,10 @@ class Startup {
         this.routes();
     }
 
+    private news = container.resolve(VideosController);
+    private videos = container.resolve(VideosController);
+    private galeria = container.resolve(GaleriaController);
+
     routes() {
         /* news */
         this.app.route("/").get((req, res) => {
@@ -22,29 +31,29 @@ class Startup {
         });
 
         this.app.route("/api/v1/news/:page/:qtd").get((req: Request, res: Response) => {
-            return NewsController.get(req, res);
+            return this.news.get(req, res);
         });
 
         this.app.route("/api/v1/news/:id").get((req: Request, res: Response) => {
-            return NewsController.getById(req, res);
+            return this.news.getById(req, res);
         });
 
         /* videos */
         this.app.route("/api/v1/videos/:page/:qtd").get((req: Request, res: Response) => {
-            return VideosController.get(req, res);
+            return this.videos.get(req, res);
         });
 
         this.app.route("/api/v1/videos/:id").get((req: Request, res: Response) => {
-            return VideosController.GetById(req, res);
+            return this.videos.GetById(req, res);
         });
 
         /* galeria */
         this.app.route("/api/v1/galeria/:page/:qtd").get((req: Request, res: Response) => {
-            return GaleriaController.get(req, res);
+            return this.galeria.get(req, res);
         });
 
         this.app.route("/api/v1/galeria/:id").get((req: Request, res: Response) => {
-            return GaleriaController.GetById(req, res);
+            return this.galeria.GetById(req, res);
         });
     }
 }
