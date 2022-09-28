@@ -1,8 +1,9 @@
+import { IVideosService } from "../contracts/iVideosService";
 import { Result } from "../infra/result";
 import { Videos } from "../models/videos";
 import { VideosRepository } from "../repository/videosRepository";
 
-export class VideosService implements VideosService {
+export class VideosService implements IVideosService {
 
     async get(id: string ): Promise<Videos> {
         let result = await VideosRepository.findById(id);

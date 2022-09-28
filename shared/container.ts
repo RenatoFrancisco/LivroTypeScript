@@ -5,7 +5,7 @@ import { NewsService } from "../services/newsService";
 import { VideosService } from "../services/videosService";
 
 container.register(
-  "INewService", {
+  "INewsService", {
     useClass: NewsService
   }
 );

@@ -4,11 +4,11 @@ import express, { Application, Request, Response } from "express";
 
 
 import database from "./infra/db";
-import NewsController from "./controller/newsController";
-import VideosController from "./controller/videosController";
-import GaleriaController from "./controller/galeriaController";
 import './shared/container';
 
+import { NewsController } from "./controller/newsController";
+import { VideosController } from "./controller/videosController";
+import { GaleriaController } from "./controller/galeriaController"
 
 class Startup {
     public app: Application;
@@ -20,9 +20,9 @@ class Startup {
         this.routes();
     }
 
-    private news = container.resolve(VideosController);
-    private videos = container.resolve(VideosController);
-    private galeria = container.resolve(GaleriaController);
+    private news = container.resolve<NewsController>(NewsController);
+    private videos = container.resolve<VideosController>(VideosController);
+    private galeria = container.resolve<GaleriaController>(GaleriaController);
 
     routes() {
         /* news */
